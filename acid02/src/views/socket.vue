@@ -44,7 +44,7 @@
 					</div>
 				</div>
 
-				<div class="chat-bd">
+				<div class="chat-bd" ref='tmck'>
 					<div class="empty" v-if="currentChatList.length<1">暂时没有新消息</div>
 					<template v-for="item in currentChatList" v-else>
 						<div class="clearfix" :class="{'clearfixleft':!item.self }">
@@ -155,6 +155,11 @@
 					alert('请输入正确的qq号')
 				}
 			},
+			ScroolEnd(){
+				let ele = this.$refs.tmck;
+				ele.scrollTo({top:ele.scrollHeight,behavior:'smooth'})
+				// ele.scrollTop = ele.scrollHeight;
+			}
 		},
 		sockets:{
 			connect() {
@@ -173,13 +178,18 @@
 					obj[next.uid] ? "" : obj[next.uid] = true && cur.push(next);   
 					return cur;
 				},[])
+			
 				// console.log("enter：", data)
 			},
 			message(data) {
-				// console.log('message：', data)
+				console.log('message：', data)
 				data.self = data.uid == this.user.uid ? true : false;
 				this.currentChatList.push(data);
 				this.$refs.input.innerHTML = '';
+				setTimeout(()=>{
+					this.ScroolEnd()
+				},100)
+				
 			},
 			leave(data) {
 				this.group = data

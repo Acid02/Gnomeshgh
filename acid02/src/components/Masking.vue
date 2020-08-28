@@ -16,7 +16,7 @@
 	    props:{
 			show:{
 				type:Boolean,
-				default:false
+				default:true
 			}
 		},
 		methods:{
@@ -35,7 +35,7 @@
 		top: 0;
 		left: 0;
 		background-color: rgba(0,0,0,0.8);
-		z-index: 9;
+		z-index: 12;
 	}
 	.fade-enter-active, .fade-leave-active {
 	  transition: opacity .5s;

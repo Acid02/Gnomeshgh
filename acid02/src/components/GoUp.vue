@@ -5,7 +5,6 @@
 </template>
 
 <script>
-	import jump from 'jump.js'
 	export default {
 		name:'GoUp',
 		data(){
@@ -30,7 +29,7 @@
 				if(!this.animations){
 					this.animations = true;
 					setTimeout(()=>{
-						jump(document.body,{duration:500})
+						this.wayscroll(document.body)
 						this.animations = false
 					},500)
 				}

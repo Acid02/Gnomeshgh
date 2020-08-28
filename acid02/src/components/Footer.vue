@@ -23,14 +23,14 @@
 			</div>
 			<div class="copyright">
 				<span>本站运行了</span>
-				<span v-for="(itme,index) in date" :key='index' v-if='itme!=0 || index!="n"&& index!="y" && index!="r" '>
+				<span v-for="(itme,key) in date" :key='key' v-if='itme!=0 || key!="n"&& key!="y" && key!="r" '>
 				{{itme<10 ? '0' +itme:itme}}
-				{{index=='n'?'年':
-				index=='y'?'月':
-				index=='r'?'日':
-				index=='xs'?'小时':
-				index=='fz'?'分钟':
-				index=='miao'?'秒':''}}</span>
+				{{key=='n'?'年':
+				key=='y'?'月':
+				key=='r'?'天':
+				key=='xs'?'小时':
+				key=='fz'?'分钟':
+				key=='miao'?'秒':''}}</span>
 			</div>
 			<div class="icp">
 				<a href="http://www.beian.miit.gov.cn/" target="_blank">
@@ -45,14 +45,9 @@
 <script>
 	export default {
 		name:"Footer",
-		props:{
-			loadTime:{
-				type:Number,
-				default:0
-			}
-		},
 		data(){
 			return {
+				loadTime:0,
 				date:{
 					n:0,
 					y:0,
@@ -63,11 +58,28 @@
 				}
 			}
 		},
+		beforeCreate() {
+			// document.onreadystatechange = ()=>{
+			// 	if (document.readyState === 'complete') {
+			// 		//页面启动耗时
+			// 		console.log('Page load time is '+ this.loadTime);
+			// 		let loadTime = window.performance.timing.domContentLoadedEventEnd-window.performance.timing.navigationStart; 
+			// 		this.loadTime = loadTime
+			// 		console.log('Page load time is '+ loadTime);
+			// 	}
+			// }
+		},
 		created() {
 			this.Firstdate()
 			setInterval(()=>{
 				this.Firstdate()
 			},1000)
+			
+			this.$nextTick(()=>{
+				let loadTime = window.performance.timing.domContentLoadedEventEnd-window.performance.timing.navigationStart; 
+				this.loadTime = loadTime
+			})
+			
 		},
 		methods:{
             Firstdate(){

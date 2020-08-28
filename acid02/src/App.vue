@@ -1,19 +1,25 @@
 <template>
   <div id="app">
-	  <div id="soketShow" @click="show = !show" title="网页聊天室" v-if="winWidth>790"></div>
-	  <keep-alive>
-		  <router-view v-if="show" :winWidth='winWidth'/>
-		  <socket v-else/>
-	  </keep-alive>
+	  <Masking v-if='$store.state.UserInfo.isLoading'>
+	  		<Loading/>
+	  </Masking>
+	<template v-else>
+		<div id="soketShow" @click="show = !show" title="网页聊天室" v-if="winWidth>790"></div>
+			  <keep-alive>
+				  <router-view v-if="show" :winWidth='winWidth'/>
+				  <socket v-else/>
+			  </keep-alive>
+	</template>
+	  
   </div>
 </template>
 
 <script>
 const socket = ()=> import('@/views/socket.vue')
-// import socket from '@/views/socket.vue'
+import Masking from '@/components/Masking' //蒙层
 export default {
   name: 'App',
-  components: {socket},
+  components: {Masking,socket},
   data(){
 	 return {
 		 show:true,

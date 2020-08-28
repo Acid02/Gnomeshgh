@@ -1,56 +1,59 @@
 <template>
 	<div id="mobile" @click.stop>
 		<div class="mobile_author_icon">
-			<img class="avatar-img" :src="$store.state.UserInfo.data.imgurl" alt="">
+			<img class="avatar-img" :src="$store.state.UserInfo.data.useravatar" alt="">
 			<article class="mobile_post_data">
 				<div class="mobile_data_link">
 					<p class="headline">文章</p>
-					<p class="length_num">17</p>
+					<p class="length_num">{{UserInfo.Allarticles.length}}</p>
 				</div>
 				<div class="mobile_data_link">
-					<p class="headline">文章</p>
-					<p class="length_num">17</p>
+					<p class="headline">标签</p>
+					<p class="length_num">{{UserInfo.label.length}}</p>
 				</div>
 				<div class="mobile_data_link">
-					<p class="headline">文章</p>
-					<p class="length_num">17</p>
+					<p class="headline">分类</p>
+					<p class="length_num">{{UserInfo.article.length}}</p>
 				</div>
 			</article>
 		</div>
 		<hr />
 		<div class="menus_items">
-			<div class="menus_item" style='animation-delay: .2s;'>
-				<a class="site-page" href="">
+			<div class="menus_item" @click="MaskShow" style='animation-delay: .2s;'>
+				<router-link to="/" class="site-page">
 					<i class="iconfont icon-zhuye faho"></i>
 					<span>主页</span>
-				</a>
+				</router-link>
 			</div>
 			<div class="menus_item" style='animation-delay: .3s;'>
 				<a class="site-page slide" ref="slide" @click="slide($event)">
 					<i class="iconfont icon-zhuye faho"></i>
-					<span>文章</span>
+					<span>标签</span>
 					<i class="iconfont icon-35_xiangxiajiantou menus-closed"></i>
 				</a>
 				<ul class="menus_item_child">
-						<li>
-							<a class="site-page" href="">
-								<i class="iconfont icon-zhuye faho"></i>
-								<span>标签</span>
-							</a>
-						</li>
-						<li>
-							<a class="site-page" href="/categories/">
-								<i class="iconfont icon-zhuye faho"></i>
-								<span>分类</span>
-							</a>
-						</li>
+					<li v-for="(item,index) in UserInfo.label" :key='index' @click="MaskShow">
+						<router-link :to="{name:'Labellist',params:{name:item.parent}}" class="site-page">
+							<i class="iconfont icon-zhuye faho"></i>
+							<span>{{item.parent}}</span>
+						</router-link>
+					</li>
 				</ul>
 			</div>
 			<div class="menus_item" style='animation-delay: .4s;'>
-				<a class="site-page" href="">
+				<a class="site-page slide" ref="slide" @click="slide($event)">
 					<i class="iconfont icon-zhuye faho"></i>
-					<span>主页</span>
+					<span>分类</span>
+					<i class="iconfont icon-35_xiangxiajiantou menus-closed"></i>
 				</a>
+				<ul class="menus_item_child">
+					<li v-for="(item,index) in UserInfo.article" :key='index' @click="MaskShow">
+						<router-link :to="{name:'Classifylist',params:{name:item.parent}}" class="site-page">
+							<i class="iconfont icon-zhuye faho"></i>
+							<span>{{item.parent}}</span>
+						</router-link>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -61,10 +64,11 @@
 		name: "Mobile",
 		data() {
 			return {
-				sildeToggle: false
+				sildeToggle: false,
+				UserInfo:this.$store.state.UserInfo.data
 			}
 		},
-		mounted(){},
+		mounted() {},
 		methods: {
 			slide: function(event) {
 				let curTarget = event.currentTarget,
@@ -86,6 +90,9 @@
 				dom.style.transition = 'height ' + time + 'ms';
 				dom.style.height = height + 'px';
 			},
+			MaskShow(){
+				this.$emit('MaskShow')
+			}
 		}
 	}
 </script>
@@ -102,6 +109,7 @@
 		background-color: #FFFFFF;
 		z-index: 10;
 	}
+
 	.mobile_author_icon {
 		display: flex;
 		flex-direction: column;
@@ -110,7 +118,7 @@
 		padding: 0 10px;
 		box-sizing: border-box;
 	}
-   
+
 	.avatar-img {
 		width: 45%;
 		height: 45%;
@@ -155,7 +163,7 @@
 	}
 
 	.menus_item {
-		transform: translate3d(100%,0,0);
+		transform: translate3d(100%, 0, 0);
 		animation: sidebarItem .5s forwards;
 	}
 
@@ -177,9 +185,11 @@
 		transform: rotate(0);
 		transition: transform .5s;
 	}
-    .slide>.menus-closed{
+
+	.slide>.menus-closed {
 		transform: rotate(.25turn);
 	}
+
 	.faho {
 		display: inline-block;
 		width: 30%;
@@ -190,11 +200,18 @@
 		padding-left: 40px;
 		overflow: hidden;
 	}
-	.slide+.menus_item_child{
+
+	.slide+.menus_item_child {
 		height: 0;
 	}
-	@keyframes sidebarItem{
-		from{transform: translate3d(100%,0,0);}
-		to{transform: translate3d(0,0,0);}
+
+	@keyframes sidebarItem {
+		from {
+			transform: translate3d(100%, 0, 0);
+		}
+
+		to {
+			transform: translate3d(0, 0, 0);
+		}
 	}
 </style>

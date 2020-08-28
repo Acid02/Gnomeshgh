@@ -8,7 +8,7 @@
 					</router-link>
 				</li>
 				<li class="is-active">
-					<a href="javascript:;" aria-current="page">Icarus</a>
+					<a href="javascript:;" aria-current="page">{{$route.params.name}}</a>
 				</li>
 			</ul>
 		</nav>

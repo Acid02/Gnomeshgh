@@ -1,39 +1,18 @@
 <template>
 	<div class="card-content">
 		<div class="menu">
-			<h3 class="menu-label">分类</h3>
+			<h3 class="menu-label">{{title}}</h3>
 			<ul class="menu-list">
-				<li>
-					<router-link :to="{name:'Classifylist',params:{'name':'ACG'}}" class="level">
+				<li v-for="(item,index) in Classifydata" :key='index'>
+					<router-link :to="{name:'Classifylist',params:{'name':item.parent}}" class="level">
 						<span class="level-start">
-							 <span class="level-item">ACG</span>
+							 <span class="level-item">{{item.parent}}</span>
 						</span>
 						 <span class="level-end">
-							 <span class="level-item tag">2</span>
+							 <span class="level-item tag">{{item.count}}</span>
 						</span>
 					</router-link>
 				</li>
-				<li>
-					<a class="level" href="">
-						<span class="level-start">
-							 <span class="level-item">学习笔记</span>
-						</span>
-						 <span class="level-end">
-							 <span class="level-item tag">2</span>
-						</span>
-					</a>
-				</li>
-				<li>
-					<a class="level" href="">
-						<span class="level-start">
-							 <span class="level-item">ACG</span>
-						</span>
-						 <span class="level-end">
-							 <span class="level-item tag">2</span>
-						</span>
-					</a>
-				</li>
-				
 			</ul>
 		</div>
 	</div>
@@ -41,7 +20,17 @@
 
 <script>
 	export default {
-		name: 'Classify'
+		name: 'Classify',
+		props:{
+			title:{
+				type:String||Number,
+				default:'分类'
+			},
+			Classifydata:{
+				type:Array,
+				default:()=> []
+			}
+		},
 	}
 </script>
 
@@ -81,4 +70,10 @@
 		font-size: 12px;
 		border-radius: 4px;
 	}
+	@media screen and (max-width: 768px) {
+		.card-content{
+			margin-bottom: 10px;
+		}
+	}
+	
 </style>

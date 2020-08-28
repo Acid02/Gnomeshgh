@@ -1,29 +1,14 @@
 <template>
 	<div class="card-content">
 		<div class="menu">
-			<h3 class="menu-label">标签</h3>
+			<h3 class="menu-label">{{title}}</h3>
 			<div class="field">
-				<div class="control">
-					<router-link :to="{name:'Labellist',params:{name:'12312'}}" class="tags">
-						<span class="tag">Hexo</span>
-						<span class="tag is-grey-lightest">4</span>
+				<div class="control" v-for="(item,index) in Labeldata" :key='index'>
+					<router-link :to="{name:'Labellist',params:{name:item.parent}}" class="tags">
+						<span class="tag">{{item.parent}}</span>
+						<span class="tag is-grey-lightest">{{item.count}}</span>
 					</router-link>
 				</div>
-			   <div class="control">
-				   <router-link :to="{name:'Labellist',params:{name:'12312'}}" class="tags">
-					   <span class="tag">{{$route.params.name}}</span>
-					   <span class="tag is-grey-lightest">1</span>
-					</router-link>
-			   </div>
-			   <div class="control"><a href="" class="tags"><span class="tag">lorem1</span><span class="tag is-grey-lightest">2</span></a></div>
-			   <div class="control"><a href="" class="tags"><span class="tag">lorem1</span><span class="tag is-grey-lightest">3</span></a></div>
-			   <div class="control"><a href="" class="tags"><span class="tag">lorem1</span><span class="tag is-grey-lightest">4</span></a></div>
-			   <div class="control"><a href="" class="tags"><span class="tag">lorem1</span><span class="tag is-grey-lightest">5</span></a></div>
-			   <div class="control"><a href="" class="tags"><span class="tag">lorem1</span><span class="tag is-grey-lightest">6</span></a></div>
-			   <div class="control"><a href="" class="tags"><span class="tag">lorem1</span><span class="tag is-grey-lightest">7</span></a></div>
-			   <div class="control"><a href="" class="tags"><span class="tag">lorem1</span><span class="tag is-grey-lightest">8</span></a></div>
-			   <div class="control"><a href="" class="tags"><span class="tag">lorem1</span><span class="tag is-grey-lightest">9</span></a></div>
-			   <div class="control"><a href="" class="tags"><span class="tag">lorem1</span><span class="tag is-grey-lightest">10</span></a></div>
 			</div>
 		</div>
 	</div>
@@ -32,6 +17,16 @@
 <script>
 	export default {
 		name: "Label",
+		props:{
+			title:{
+				type:String||Number,
+				default:'标签'
+			},
+			Labeldata:{
+				type:Array,
+				default:()=>[]
+			}
+		}
 	}
 </script>
 
@@ -71,4 +66,9 @@
 	.is-grey-lightest{
 		background-color: #ededed;
 	}
+	@media screen and (max-width: 768px) {
+			.card-content{
+				margin-bottom: 10px;
+			}
+		}
 </style>
